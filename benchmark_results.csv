@@ -1,0 +1,10 @@
+Dataset,Encoding,Variables,Clauses,Time_Seconds,Status
+Sudoku 9x9,Pairwise,729,12018,0.012527,Success
+Sudoku 9x9,Binary,733,12018,0.012079,UNSAT
+Sudoku 9x9,SeqCounter,737,7806,0.009099,UNSAT
+Sudoku 16x16,Pairwise,4096,123923,0.112492,Success
+Sudoku 16x16,Binary,4100,66579,0.06487,UNSAT
+Sudoku 16x16,SeqCounter,4111,46099,0.049255,UNSAT
+Sudoku 25x25,Pairwise,15625,752510,0.73839,Success
+Sudoku 25x25,Binary,15630,315010,0.380614,UNSAT
+Sudoku 25x25,SeqCounter,15649,180010,0.199575,UNSAT

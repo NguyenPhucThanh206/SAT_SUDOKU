@@ -1,0 +1,31 @@
+Dataset,Encoding,Variables,Clauses,Time_Seconds,Status
+Sudoku 9x9,Pairwise,729,12007,0.012752,Success
+Sudoku 9x9,Bitwise,733,12007,0.012784,UNSAT
+Sudoku 9x9,SeqCounter,737,7795,0.009999,UNSAT
+Sudoku 9x9,Commander (Custom),1701,8119,0.008231,Success
+Sudoku 9x9,Product (Custom),2673,8119,0.008028,Success
+Sudoku 16x16,Pairwise,4096,123920,0.127254,Success
+Sudoku 16x16,Bitwise,4100,66576,0.063487,UNSAT
+Sudoku 16x16,SeqCounter,4111,46096,0.05285,UNSAT
+Sudoku 16x16,Commander (Custom),11264,52240,0.071222,Success
+Sudoku 16x16,Product (Custom),12288,46096,0.049055,Success
+Sudoku 25x25,Pairwise,15625,752525,0.808652,Success
+Sudoku 25x25,Bitwise,15630,315025,0.401428,UNSAT
+Sudoku 25x25,SeqCounter,15649,180025,0.215609,UNSAT
+Sudoku 25x25,Commander (Custom),43125,202525,0.342817,Success
+Sudoku 25x25,Product (Custom),40625,177525,0.238753,Success
+Sudoku 36x36,Pairwise,46656,3271140,4.537779,Success
+Sudoku 36x36,Bitwise,46662,1124964,1.182152,UNSAT
+Sudoku 36x36,SeqCounter,46691,544356,0.671222,UNSAT
+Sudoku 36x36,Commander (Custom),134784,627300,19.41066,Success
+Sudoku 36x36,Product (Custom),108864,533988,3.310125,Success
+Sudoku 49x49,Pairwise,117649,11303957,20.396658,Success
+Sudoku 49x49,Bitwise,117655,2833229,3.271107,UNSAT
+Sudoku 49x49,SeqCounter,117697,1383025,1.923504,UNSAT
+Sudoku 49x49,Commander (Custom),348145,1603917,49.280796,Success
+Sudoku 49x49,Product (Custom),252105,1354213,9.362785,Success
+Sudoku 64x64,Pairwise,262144,33046592,59.82106,Success
+Sudoku 64x64,Bitwise,262150,6307904,6.978469,UNSAT
+Sudoku 64x64,SeqCounter,262207,3096640,4.073558,UNSAT
+Sudoku 64x64,Commander (Custom),770048,3571776,50.766186,Success
+Sudoku 64x64,Product (Custom),524288,3031104,48.209875,Success
