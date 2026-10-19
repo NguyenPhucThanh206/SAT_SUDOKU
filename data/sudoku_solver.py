@@ -1,16 +1,18 @@
 import math
 import time
 from pysat.solvers import Solver
-from pysat.formula import CNF
+from pysat.formula import CNF, IDPool
 from pysat.card import CardEnc, EncType
+
 
 class SudokuSATSolver:
     def __init__(self, N, givens, encoding=EncType.pairwise):
         self.N = N
         self.subgrid_size = int(math.isqrt(N))
         self.givens = givens
-        self.encoding = encoding 
+        self.encoding = encoding
         self.cnf = CNF()
+        self.vpool = IDPool(start_from=(self.N ** 3) + 1)
 
     def var_id(self, r, c, v):
         return (r - 1) * (self.N ** 2) + (c - 1) * self.N + v
@@ -22,29 +24,36 @@ class SudokuSATSolver:
         r = (idx // (self.N ** 2)) + 1
         return r, c, v
 
-    def build_cnf(self): 
+    def _add_exactly_one(self, lits):
+        self.cnf.append(lits)
+        amo_clauses = CardEnc.atmost(
+            lits=lits,
+            bound=1,
+            vpool=self.vpool,
+            encoding=self.encoding
+        )
+        self.cnf.extend(amo_clauses)
+
+    def build_cnf(self):
         self.cnf = CNF()
+        self.vpool = IDPool(start_from=(self.N ** 3) + 1)
         N = self.N
-        B = self.subgrid_size 
-        enc = self.encoding
+        B = self.subgrid_size
 
         for r in range(1, N + 1):
             for c in range(1, N + 1):
                 cell_vars = [self.var_id(r, c, v) for v in range(1, N + 1)]
-                self.cnf.append(cell_vars)
-                self.cnf.extend(CardEnc.atmost(lits=cell_vars, bound=1, encoding=enc))
+                self._add_exactly_one(cell_vars)
 
         for r in range(1, N + 1):
             for v in range(1, N + 1):
                 row_vars = [self.var_id(r, c, v) for c in range(1, N + 1)]
-                self.cnf.append(row_vars)
-                self.cnf.extend(CardEnc.atmost(lits=row_vars, bound=1, encoding=enc))
+                self._add_exactly_one(row_vars)
 
         for c in range(1, N + 1):
             for v in range(1, N + 1):
                 col_vars = [self.var_id(r, c, v) for r in range(1, N + 1)]
-                self.cnf.append(col_vars)
-                self.cnf.extend(CardEnc.atmost(lits=col_vars, bound=1, encoding=enc)) 
+                self._add_exactly_one(col_vars)
 
         for br in range(0, N, B):
             for bc in range(0, N, B):
@@ -54,8 +63,7 @@ class SudokuSATSolver:
                         for r in range(br + 1, br + B + 1)
                         for c in range(bc + 1, bc + B + 1)
                     ]
-                    self.cnf.append(box_vars)
-                    self.cnf.extend(CardEnc.atmost(lits=box_vars, bound=1, encoding=enc))   
+                    self._add_exactly_one(box_vars)
 
         for r, c, v in self.givens:
             self.cnf.append([self.var_id(r, c, v)])
@@ -68,7 +76,7 @@ class SudokuSATSolver:
             is_sat = solver.solve()
             solve_time = time.time() - start_time
 
-            num_vars = self.cnf.nv
+            num_vars = max(self.cnf.nv, self.N ** 3)
             num_clauses = len(self.cnf.clauses)
 
             if is_sat:

@@ -1,12 +1,12 @@
 import csv
 import time
 import math
-import os
 from pysat.card import EncType
 from pysat.formula import CNF
 
 from sudoku_solver import SudokuSATSolver
 from commander_sudoku import CommanderSudokuSolver
+
 
 def add_product_amo(cnf, lits, max_var_id):
     n = len(lits)
@@ -80,6 +80,7 @@ class ProductSudokuSolver(SudokuSATSolver):
         for r, c, v in self.givens:
             self.cnf.append([self.var_id(r, c, v)])
 
+
 DATASETS = {
     "Sudoku 9x9": (
         9,
@@ -95,7 +96,7 @@ DATASETS = {
         [
             (1, 1, 16), (2, 5, 12), (3, 9, 8),   (4, 13, 4),
             (5, 2, 3),  (6, 6, 7),  (7, 10, 11), (8, 14, 15),
-            (9, 3, 2),  (10, 7, 6), (11, 11, 10),(12, 15, 14),
+            (9, 3, 2),  (10, 7, 6), (11, 11, 10), (12, 15, 14),
             (13, 4, 1), (14, 8, 5), (15, 12, 9), (16, 16, 13)
         ]
     ),
@@ -125,8 +126,8 @@ ENCODINGS = {
     "Pairwise": ("pysat", EncType.pairwise),
     "Bitwise": ("pysat", EncType.bitwise),
     "SeqCounter": ("pysat", EncType.seqcounter),
-    "Commander (Custom)": ("commander", None),
-    "Product (Custom)": ("product", None)
+    "Commander": ("commander", None),
+    "Product": ("product", None)
 }
 
 
@@ -150,7 +151,7 @@ def run_benchmark():
                 sol, solve_time, num_vars, num_clauses = solver.solve(solver_name='cadical153')
                 status = "Success" if sol else "UNSAT"
 
-                print(f"Xong! ({solve_time:.4f}s | Biến: {num_vars:,} | Mệnh đề: {num_clauses:,})")
+                print(f"Xong! ({solve_time:.4f}s | Biến: {num_vars:,} | Mệnh đề: {num_clauses:,} | {status})")
 
                 results.append({
                     "Dataset": size_name,
